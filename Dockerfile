@@ -1,18 +1,20 @@
-# Use official Node image
-FROM node:18-alpine
+# Use an official Node runtime as a parent image
+FROM node:18
 
-# Create app directory
+# Set working directory
 WORKDIR /app
 
-# Install dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy app source
+# Copy the rest of your application code
 COPY . .
 
-# Expose port
-EXPOSE 3000
+# Set environment variables (via Render dashboard later)
 
-# Start app
-CMD [ "node", "server.js" ]
+# Expose port (match the port your app uses, usually 3000 or 8080)
+EXPOSE 8080
+
+# Command to run your app
+CMD ["node", "server.js"]
