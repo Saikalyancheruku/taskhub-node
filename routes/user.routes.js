@@ -162,4 +162,6 @@ router.put('/:id', authenticateJWT, userController.updateUser); // JWT Auth adde
  */
 router.delete('/:id', authenticateJWT, userController.deleteUser); // JWT Auth added here
 
+
+router.post('/change-password', authenticateJWT, userController.changePassword);
 module.exports = router;

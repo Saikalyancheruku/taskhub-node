@@ -2,50 +2,46 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 require('dotenv').config();
-
-
-// Register user
+const { sendRegistrationSuccessEmail } = require('../utils/registrationEmail.util');
 exports.register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
-    // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(409).json({ message: 'User already exists with this email' });
     }
 
-    // Hash the password
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
+    // Create user
     const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
-      role: 'admin' // optional: default role
+      role: 'admin' // default role
     });
 
-    // Create JWT token
+    // Generate token
     const token = jwt.sign(
       { id: newUser.id },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRATION }
     );
-
-    return res.status(201).json({
+    await sendRegistrationSuccessEmail(email, username);
+    res.status(201).json({
       message: 'User registered successfully',
       token,
       user: {
         id: newUser.id,
-        username: newUser.username,
-        email: newUser.email,
+        username,
+        email,
         role: newUser.role
       }
     });
-  } catch (err) {
-    console.error('Registration Error:', err);
-    return res.status(500).json({ message: 'Internal server error' });
+  } catch (error) {
+    console.error('Error in register:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
