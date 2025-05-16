@@ -4,10 +4,6 @@ dotenv.config();
 
 // Destructure environment variables for easy access
 const { DB_HOST, DB_USER, DB_PASS, DB_NAME } = process.env;
-console.log("DB_HOST", DB_HOST);
-console.log("DB_USER", DB_USER);
-console.log("DB_PASS", DB_PASS);
-console.log("DB_NAME", DB_NAME);
 // Sequelize Configuration
 module.exports = {
   HOST: DB_HOST ,  // MySQL host
