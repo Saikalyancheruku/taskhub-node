@@ -10,7 +10,7 @@ module.exports = {
   USER: DB_USER ,  // MySQL username
   PASSWORD: DB_PASS ,  // MySQL password
   DB: DB_NAME, 
-   port: 54066, // Database name
+   port: 35561, // Database name
   dialect: "mysql",  // MySQL as the DBMS
   pool: {
     max: 5,  
