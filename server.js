@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // );
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
-  port: 54066,
+  port: 35561,
   dialect: dbConfig.dialect,
   dialectOptions: {
   connectTimeout: 10000, // 10 seconds
